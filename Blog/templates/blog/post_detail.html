@@ -1,0 +1,81 @@
+{% extends 'blog/Base.html' %}
+
+{% block content %}
+<div class="row g-4">
+  <!-- Blog Posts -->
+  <div class="col-lg-8">
+
+      <article class="mb-4" data-aos="fade-up">
+        <div class="card shadow-sm border-0 rounded-4">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center">
+              <img class="rounded-circle border shadow-sm me-3"
+                   src="{{ post.author.profile.image.url }}"
+                   alt="{{ post.author.username }}"
+                   style="width: 45px; height: 45px; object-fit: cover;">
+              <div>
+                <small class="text-muted d-block">👤 By <strong>{{ post.author }}</strong></small>
+                <small class="text-muted">📅 {{ post.date_posted }}</small>
+              </div>
+            </div>
+
+            {% if object.author == user %}
+            <div>
+              <a href="{% url 'post_update' object.id %}" class="btn btn-sm btn-outline-success rounded-pill me-2">
+                ✏️ Edit
+              </a>
+              <a href="{% url 'post_delete' object.id %}" class="btn btn-sm btn-outline-danger rounded-pill">
+                🗑️ Delete
+              </a>
+            </div>
+            {% endif %}
+          </div>
+
+            <h5 class="card-title fw-bold text-primary">{{ post.title }}</h5>
+            <p class="card-text text-muted">{{ post.content|linebreaks }}</p>
+
+
+          </div>
+        </div>
+      </article>
+
+  </div>
+
+  <!-- Sidebar -->
+  <div class="col-lg-4" data-aos="fade-left">
+    <div class="p-4 bg-white shadow-sm rounded-4 border border-light-subtle">
+      <h4 class="text-primary mb-3">📚 Quick Links</h4>
+      <div class="list-group" id="list-tab" role="tablist">
+        <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home">
+          🏠 Home
+        </a>
+        <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile">
+          👤 Profile
+        </a>
+        <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">
+          ✉️ Messages
+        </a>
+        <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">
+          ⚙️ Settings
+        </a>
+      </div>
+
+      <div class="tab-content mt-3" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+          Welcome to <strong>BlogSprint</strong> — share your stories!
+        </div>
+        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+          Manage your profile and bio here.
+        </div>
+        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+          Check for any new messages or comments.
+        </div>
+        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+          Adjust your blog settings with ease.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

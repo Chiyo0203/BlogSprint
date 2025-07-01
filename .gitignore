@@ -1,0 +1,11 @@
+/db
+/db.sqlite3
+/migrations
+/staticfiles
+/media
+/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+/dusri.json
+/posts.json

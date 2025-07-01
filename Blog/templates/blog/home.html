@@ -1,0 +1,96 @@
+{% extends 'blog/Base.html' %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Blog Posts -->
+    <div class="col-lg-8">
+        {% for post in posts %}
+        <article class="mb-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden transition-all hover-zoom">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <img class="rounded-circle border shadow-lg me-3"
+                             src="{{ post.author.profile.image.url }}"
+                             alt="{{ post.author.username }}"
+                             style="width: 50px; height: 50px; object-fit: cover; transition: all 0.3s;">
+                        <div>
+                            <small class="text-muted d-block">👤 By <strong><a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a></strong></small>
+                            <small class="text-muted">📅 {{ post.date_posted }}</small>
+                        </div>
+                    </div>
+
+                    <h5 class="card-title fw-bold text-primary">
+                        <a href="{% url 'post_detail' post.id %}" class="text-decoration-none text-primary hover-underline">{{ post.title }}</a>
+                    </h5>
+                    <p class="card-text text-muted">{{ post.content|truncatewords:30 }}</p>
+
+                    <div class="text-end mt-3">
+                        <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-primary rounded-pill px-4 shadow-lg transition-all hover-shadow">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        <p class="text-muted">No posts yet. Time to start blogging!</p>
+        {% endfor %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4" data-aos="fade-left" data-aos-delay="200">
+        <div class="p-4 bg-gradient shadow-lg rounded-4 border-light">
+            <h4 class="text-primary  mb-3">📚 Quick Links</h4>
+            <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action hover-shadow" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home">
+                    🏠 Home
+                </a>
+                <a class="list-group-item list-group-item-action hover-shadow" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile">
+                    👤 Profile
+                </a>
+                <a class="list-group-item list-group-item-action hover-shadow" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">
+                    ✉️ Messages
+                </a>
+                <a class="list-group-item list-group-item-action hover-shadow" id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">
+                    ⚙️ Settings
+                </a>
+            </div>
+
+            <div class="tab-content mt-3" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                    Welcome to <strong>BlogSprint</strong> — share your stories!
+                </div>
+                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                    Manage your profile and bio here.
+                </div>
+                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+                    Check for any new messages or comments.
+                </div>
+                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                    Adjust your blog settings with ease.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+ {% if is_paginated %}
+<div class="d-flex justify-content-center mt-4 flex-wrap gap-2" data-aos="fade-up" data-aos-delay="100">
+    {% if page_obj.has_previous %}
+        <a class="btn btn-outline-primary rounded-pill shadow-sm px-3" href="?page=1">⏮ First</a>
+        <a class="btn btn-outline-primary rounded-pill shadow-sm px-3" href="?page={{ page_obj.previous_page_number }}">◀ Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a class="btn btn-primary rounded-pill shadow-sm px-3" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="btn btn-outline-primary rounded-pill shadow-sm px-3" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a class="btn btn-outline-primary rounded-pill shadow-sm px-3" href="?page={{ page_obj.next_page_number }}">Next ▶</a>
+        <a class="btn btn-outline-primary rounded-pill shadow-sm px-3" href="?page={{ page_obj.paginator.num_pages }}">Last ⏭</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

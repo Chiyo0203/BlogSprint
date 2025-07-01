@@ -1,0 +1,41 @@
+{% extends 'blog/Base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5 shadow-lg rounded-4 border-0 hover-zoom transition-all">
+                <div class="card-body p-5">
+                    <h2 class="card-title text-center mb-4 text-primary fw-bold">🔐 Log In to BlogSprint</h2>
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            {{ form|crispy }}
+                        </fieldset>
+
+                        <!-- Forgot Password link placed correctly below the password input -->
+                        <div class="text-end mt-2">
+                            <a href="{% url 'password_reset' %}" class="text-decoration-none text-muted small">
+                                Forgot Password?
+                            </a>
+                        </div>
+
+                        <div class="d-grid mt-3">
+                            <button type="submit" class="btn btn-primary rounded-pill fw-semibold transition-all hover-shadow hover-scale">
+                                Login
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="border-top pt-3 mt-4 text-center">
+                        <small class="text-muted">
+                            Need an account? <a href="{% url 'register' %}" class="text-decoration-none text-primary fw-medium">Sign Up</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

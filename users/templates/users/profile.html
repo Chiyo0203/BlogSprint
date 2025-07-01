@@ -1,0 +1,142 @@
+{% extends 'blog/Base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-lg rounded-4 border-0 p-4 hover-zoom transition-all">
+    <div class="row g-4 align-items-center">
+
+      <!-- Profile Overview -->
+      <div class="col-lg-4 text-center">
+        <img src="{{ user.profile.image.url }}"
+             class="rounded-circle border shadow-lg mb-3 transition-all hover-scale"
+             style="width: 120px; height: 120px; object-fit: cover;" alt="Profile Picture">
+        <h4 class="fw-bold text-primary mb-1">{{ user.username }}</h4>
+        <p class="text-muted mb-0">{{ user.email }}</p>
+      </div>
+
+      <!-- Profile Form -->
+      <div class="col-lg-8">
+        <h5 class="text-primary fw-bold mb-3">Update Profile Info</h5>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <fieldset class="form-group">
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+          </fieldset>
+          <div class="d-grid mt-3">
+            <button type="submit" class="btn btn-primary rounded-pill fw-semibold transition-all hover-shadow">
+              💾 Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+/* Profile Card */
+.card {
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background: #ffffff;
+    transition: all 0.4s ease-out;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile Image Hover Effect */
+.profile-image:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile Overview */
+.text-center h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.text-muted {
+    font-size: 0.9rem;
+}
+
+/* Profile Form Input Styling */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 20px;
+    width: 100%;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+/* Button Hover */
+.btn-primary {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    transition: all 0.4s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:active {
+    transform: scale(1);
+}
+
+/* Focus on Text Inputs */
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+/* Subtle Card Hover Animation */
+.hover-zoom:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Additional Transitions */
+.transition-all {
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-shadow:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.hover-scale:hover {
+    transform: scale(1.1);
+}
+
+/* Responsive Styles */
+@media (max-width: 576px) {
+    .card-body {
+        padding: 2rem 1.5rem;
+    }
+}
+</style>
+{% endblock %}
